@@ -1,0 +1,7 @@
+
+config.yaml
+.nhost
+db_data
+minio_data
+.env.development
+.idea
