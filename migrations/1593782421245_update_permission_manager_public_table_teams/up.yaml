@@ -1,0 +1,21 @@
+- args:
+    role: manager
+    table:
+      name: teams
+      schema: public
+  type: drop_insert_permission
+- args:
+    permission:
+      backend_only: false
+      check: {}
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - name
+      set: {}
+    role: manager
+    table:
+      name: teams
+      schema: public
+  type: create_insert_permission

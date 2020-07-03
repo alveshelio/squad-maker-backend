@@ -1,0 +1,21 @@
+- args:
+    permission:
+      backend_only: false
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      filter:
+        team:
+          managers:
+            manager_id:
+              _eq: X-Hasura-User-Id
+      set: {}
+    role: squad_admin
+    table:
+      name: activities
+      schema: public
+  type: create_update_permission

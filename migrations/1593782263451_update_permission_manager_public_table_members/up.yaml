@@ -1,0 +1,18 @@
+- args:
+    role: manager
+    table:
+      name: members
+      schema: public
+  type: drop_delete_permission
+- args:
+    permission:
+      filter:
+        team_managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+    role: manager
+    table:
+      name: members
+      schema: public
+  type: create_delete_permission

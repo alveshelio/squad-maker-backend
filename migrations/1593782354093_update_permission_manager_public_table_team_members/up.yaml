@@ -1,0 +1,20 @@
+- args:
+    role: manager
+    table:
+      name: team_members
+      schema: public
+  type: drop_insert_permission
+- args:
+    permission:
+      backend_only: false
+      check: {}
+      columns:
+      - team_id
+      - member_id
+      - id
+      set: {}
+    role: manager
+    table:
+      name: team_members
+      schema: public
+  type: create_insert_permission

@@ -1,0 +1,19 @@
+- args:
+    permission:
+      allow_aggregations: false
+      backend_only: false
+      columns:
+      - id
+      - member_id
+      - team_id
+      computed_fields: []
+      filter:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
+      limit: null
+    role: squad_admin
+    table:
+      name: team_members
+      schema: public
+  type: create_select_permission

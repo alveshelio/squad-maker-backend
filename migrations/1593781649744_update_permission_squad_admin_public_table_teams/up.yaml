@@ -1,0 +1,13 @@
+- args:
+    permission:
+      backend_only: false
+      filter:
+        members:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+    role: squad_admin
+    table:
+      name: teams
+      schema: public
+  type: create_delete_permission

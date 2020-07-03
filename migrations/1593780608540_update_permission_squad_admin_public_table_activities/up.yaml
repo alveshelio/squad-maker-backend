@@ -1,0 +1,13 @@
+- args:
+    permission:
+      backend_only: false
+      filter:
+        team:
+          managers:
+            manager_id:
+              _eq: X-Hasura-User-Id
+    role: squad_admin
+    table:
+      name: activities
+      schema: public
+  type: create_delete_permission

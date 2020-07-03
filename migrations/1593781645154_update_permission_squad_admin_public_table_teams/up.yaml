@@ -1,0 +1,24 @@
+- args:
+    permission:
+      backend_only: false
+      check:
+        members:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      filter:
+        members:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+      set: {}
+    role: squad_admin
+    table:
+      name: teams
+      schema: public
+  type: create_update_permission

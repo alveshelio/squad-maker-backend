@@ -1,0 +1,24 @@
+- args:
+    relationship: team_managers
+    table:
+      name: members
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: member
+    table:
+      name: team_managers
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: team
+    table:
+      name: team_managers
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: team_managers
+    table:
+      name: teams
+      schema: public
+  type: drop_relationship

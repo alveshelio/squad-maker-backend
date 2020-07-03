@@ -1,0 +1,12 @@
+- args:
+    permission:
+      filter:
+        team:
+          members:
+            member_id:
+              _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: activities
+      schema: public
+  type: create_delete_permission

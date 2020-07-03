@@ -1,0 +1,25 @@
+- args:
+    role: manager
+    table:
+      name: team_managers
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - manager_id
+      - team_id
+      computed_fields: []
+      filter:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+    role: manager
+    table:
+      name: team_managers
+      schema: public
+  type: create_select_permission

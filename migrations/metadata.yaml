@@ -95,10 +95,144 @@ tables:
   - name: team
     using:
       foreign_key_constraint_on: team_id
+  insert_permissions:
+  - role: manager
+    permission:
+      check: {}
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+  - role: squad_admin
+    permission:
+      check: {}
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      backend_only: false
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      filter:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      filter:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      filter:
+        team:
+          members:
+            member_id:
+              _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: manager
+    permission:
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      filter:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+      check:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      filter:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+      check:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  delete_permissions:
+  - role: manager
+    permission:
+      filter:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      filter:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
 - table:
     schema: public
     name: members
   array_relationships:
+  - name: team_managers
+    using:
+      foreign_key_constraint_on:
+        column: manager_id
+        table:
+          schema: public
+          name: team_managers
   - name: team_members
     using:
       foreign_key_constraint_on:
@@ -106,24 +240,240 @@ tables:
         table:
           schema: public
           name: team_members
+  insert_permissions:
+  - role: manager
+    permission:
+      check: {}
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - name
+      - user_id
+      backend_only: false
+  - role: squad_admin
+    permission:
+      check: {}
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      - user_id
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      - user_id
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      - user_id
+      filter:
+        team_managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - name
+      - user_id
+      filter:
+        team_managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - name
+      - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: manager
+    permission:
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      - user_id
+      filter:
+        team_managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+      check:
+        team_managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      - user_id
+      filter:
+        team_managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+      check:
+        team_managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: manager
+    permission:
+      filter:
+        team_managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      filter:
+        team_managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
 - table:
     schema: public
-    name: team
-  array_relationships:
-  - name: activities
+    name: team_managers
+  object_relationships:
+  - name: member
     using:
-      foreign_key_constraint_on:
-        column: team_id
-        table:
-          schema: public
-          name: activities
-  - name: team_members
+      foreign_key_constraint_on: manager_id
+  - name: team
     using:
-      foreign_key_constraint_on:
-        column: team_id
-        table:
-          schema: public
-          name: team_members
+      foreign_key_constraint_on: team_id
+  insert_permissions:
+  - role: manager
+    permission:
+      check: {}
+      columns:
+      - id
+      - team_id
+      - manager_id
+      backend_only: false
+  - role: squad_admin
+    permission:
+      check: {}
+      columns:
+      - id
+      - team_id
+      - manager_id
+      backend_only: false
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - id
+      - manager_id
+      - team_id
+      filter:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - id
+      - manager_id
+      - team_id
+      filter:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: manager
+    permission:
+      columns:
+      - id
+      - manager_id
+      - team_id
+      filter:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+      check:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - id
+      - manager_id
+      - team_id
+      filter:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
+      check:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
+  delete_permissions:
+  - role: manager
+    permission:
+      filter:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      filter:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
 - table:
     schema: public
     name: team_members
@@ -134,6 +484,275 @@ tables:
   - name: team
     using:
       foreign_key_constraint_on: team_id
+  insert_permissions:
+  - role: manager
+    permission:
+      check: {}
+      columns:
+      - team_id
+      - member_id
+      - id
+      backend_only: false
+  - role: squad_admin
+    permission:
+      check: {}
+      columns:
+      - team_id
+      - member_id
+      - id
+      backend_only: false
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - team_id
+      - member_id
+      - id
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - id
+      - member_id
+      - team_id
+      filter:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - id
+      - member_id
+      - team_id
+      filter:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+      - id
+      - member_id
+      - team_id
+      filter:
+        member_id:
+          _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: manager
+    permission:
+      columns:
+      - id
+      - member_id
+      - team_id
+      filter:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+      check:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - id
+      - member_id
+      - team_id
+      filter:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
+      check:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+      - id
+      - member_id
+      - team_id
+      filter:
+        member_id:
+          _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: manager
+    permission:
+      filter:
+        team:
+          managers:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      filter:
+        member:
+          user_id:
+            _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      filter:
+        member_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: teams
+  array_relationships:
+  - name: activities
+    using:
+      foreign_key_constraint_on:
+        column: team_id
+        table:
+          schema: public
+          name: activities
+  - name: managers
+    using:
+      foreign_key_constraint_on:
+        column: team_id
+        table:
+          schema: public
+          name: team_managers
+  - name: members
+    using:
+      foreign_key_constraint_on:
+        column: team_id
+        table:
+          schema: public
+          name: team_members
+  insert_permissions:
+  - role: manager
+    permission:
+      check: {}
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - name
+      backend_only: false
+  - role: squad_admin
+    permission:
+      check: {}
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - name
+      backend_only: false
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - name
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      filter:
+        members:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      filter:
+        members:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      filter:
+        members:
+          member_id:
+            _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: manager
+    permission:
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      filter:
+        managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+      check:
+        managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      filter:
+        members:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+      check:
+        members:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns: []
+      filter:
+        members:
+          member_id:
+            _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: manager
+    permission:
+      filter:
+        managers:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: squad_admin
+    permission:
+      filter:
+        members:
+          member:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      filter:
+        members:
+          member_id:
+            _eq: X-Hasura-User-Id
 - table:
     schema: public
     name: users

@@ -1,0 +1,40 @@
+- args:
+    name: team_managers
+    table:
+      name: members
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: member_id
+        table:
+          name: team_managers
+          schema: public
+  type: create_array_relationship
+- args:
+    name: member
+    table:
+      name: team_managers
+      schema: public
+    using:
+      foreign_key_constraint_on: member_id
+  type: create_object_relationship
+- args:
+    name: team
+    table:
+      name: team_managers
+      schema: public
+    using:
+      foreign_key_constraint_on: team_id
+  type: create_object_relationship
+- args:
+    name: team_managers
+    table:
+      name: teams
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: team_id
+        table:
+          name: team_managers
+          schema: public
+  type: create_array_relationship

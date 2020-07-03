@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."team_managers" rename column "manager_id" to "member_id";
+  type: run_sql

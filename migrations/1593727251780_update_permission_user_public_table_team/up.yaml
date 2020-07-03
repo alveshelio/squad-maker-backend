@@ -1,0 +1,19 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - name
+      - created_at
+      - updated_at
+      - id
+      computed_fields: []
+      filter:
+        team_members:
+          member_id:
+            _eq: X-Hasura-User-Id
+      limit: null
+    role: user
+    table:
+      name: team
+      schema: public
+  type: create_select_permission

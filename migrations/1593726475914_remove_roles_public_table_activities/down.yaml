@@ -1,0 +1,19 @@
+- args:
+    permission:
+      check: {}
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: anonymous
+    table:
+      name: activities
+      schema: public
+  type: create_insert_permission

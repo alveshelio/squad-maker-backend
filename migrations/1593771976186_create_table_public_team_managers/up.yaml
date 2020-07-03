@@ -1,0 +1,18 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE EXTENSION IF NOT EXISTS pgcrypto;
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "public"."team_managers"("id" uuid NOT NULL DEFAULT gen_random_uuid(),
+      "team_id" uuid NOT NULL, "member_id" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN
+      KEY ("team_id") REFERENCES "public"."team"("id") ON UPDATE restrict ON DELETE
+      restrict, FOREIGN KEY ("member_id") REFERENCES "public"."members"("id") ON UPDATE
+      restrict ON DELETE restrict);
+  type: run_sql
+- args:
+    name: team_managers
+    schema: public
+  type: add_existing_table_or_view

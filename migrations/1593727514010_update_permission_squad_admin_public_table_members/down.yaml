@@ -1,0 +1,6 @@
+- args:
+    role: squad_admin
+    table:
+      name: members
+      schema: public
+  type: drop_delete_permission

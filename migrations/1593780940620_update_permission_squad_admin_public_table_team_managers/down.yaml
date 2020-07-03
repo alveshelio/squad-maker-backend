@@ -1,0 +1,6 @@
+- args:
+    role: squad_admin
+    table:
+      name: team_managers
+      schema: public
+  type: drop_update_permission

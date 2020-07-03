@@ -1,0 +1,118 @@
+- args:
+    role: manager
+    table:
+      name: activities
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      computed_fields: []
+      filter:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+    role: manager
+    table:
+      name: activities
+      schema: public
+  type: create_select_permission
+- args:
+    role: manager
+    table:
+      name: activities
+      schema: public
+  type: drop_update_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      computed_fields: []
+      filter:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+    role: manager
+    table:
+      name: activities
+      schema: public
+  type: create_update_permission
+- args:
+    role: manager
+    table:
+      name: activities
+      schema: public
+  type: drop_delete_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      computed_fields: []
+      filter:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+    role: manager
+    table:
+      name: activities
+      schema: public
+  type: create_delete_permission
+- args:
+    role: manager
+    table:
+      name: activities
+      schema: public
+  type: drop_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      check:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+      columns:
+      - matches
+      - name
+      - created_at
+      - updated_at
+      - id
+      - team_id
+      computed_fields: []
+      filter:
+        team:
+          members:
+            member:
+              user_id:
+                _eq: X-Hasura-User-Id
+    role: manager
+    table:
+      name: activities
+      schema: public
+  type: create_insert_permission
